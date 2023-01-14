@@ -10,13 +10,14 @@ var questions = [
         correctAnswerIndex: 2,
     },
     {
-        question: "Which symbol is used for comments in Javascript?",
+        question: "What is DOM in JavaScript?",
         answers: [
-            "/* text */",
-            "// text",
-            "<!-- text -->"
+            "Date Of Manufacture",
+            "Days On Market",
+            "Document Object Model",
+            "Data Object Model"
         ],
-        correctAnswerIndex: 1,
+        correctAnswerIndex: 2,
     },
     {
         question: "What are NOT JavaScript Data Type?",
@@ -38,4 +39,6 @@ var questions = [
         ],
         correctAnswerIndex: 3,
     },
-]
+];
+
+var answeredQuestions = [];
