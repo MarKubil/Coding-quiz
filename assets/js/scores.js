@@ -1,7 +1,14 @@
 // Variables
 var highScores = document.querySelector("#highscores");
 // local takes an object from local storage and makes it multiply arrays.
-var local = Object.keys(localStorage).map((key) => [String(key), localStorage[key]]);
+var local= Object.keys(localStorage).map((key) => [String(key), localStorage[key]]);
+
+// Clear HighScores button
+var clear = document.querySelector("#clear");
+
+
+
+
 // Creates new list item.
 function newLi() {
     return document.createElement("li");
@@ -9,7 +16,13 @@ function newLi() {
 
 // Loops throw local arrays and prints it in HighScores
 for (var i = 0; i < local.length; i++) {
-
+    var string = local[i].join(" Score: ");
+    highScores.appendChild(newLi());
+    highScores.children[i].innerHTML = "<b>Initials:   <i>" + string + "</i></b>";
 }
-highScores.textContent = 
-console.log(local);
+
+// Clear History button event function
+clear.addEventListener("click", function(){
+    localStorage.clear();
+    location.reload();
+});

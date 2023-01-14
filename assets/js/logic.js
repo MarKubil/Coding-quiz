@@ -107,7 +107,8 @@ var endScreen = function (score) {
     document.querySelector("#final-score").innerHTML = score;
 
     document.querySelector("#submit").addEventListener("click", function(){
-        var initials = document.querySelector("#initials").value;
+        var initial = document.querySelector("#initials").value;
+        var initials = initial.toUpperCase();
 
         if (localStorage.getItem(initials) === null) {
             localStorage.setItem(initials, score);
