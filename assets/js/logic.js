@@ -6,6 +6,7 @@ var question = document.querySelector("#questions");
 var questionTitle = document.querySelector("#question-title");
 var choices = document.querySelector("#choices");
 var endScreenId = document.querySelector("#end-screen");
+var answerResult = document.querySelector("#answerResult");
 
 
 var correctAnswerIndex;
@@ -34,16 +35,32 @@ startButton.addEventListener("click", function () {
         document.getElementById('time').innerHTML = time;
         if (time <= 0) {
             clearInterval(timer);
-            document.getElementById('time').innerHTML = 'Done';
-
-        }
+            document.getElementById('time').innerHTML = 'Game Over';
+            endScreen(score);
+        };
     }, 1000);
     runQuiz();
 });
 
 
 function runQuiz() {
+    // Adds the point for the time left after quiz done.
     if (questions.length === 0) {
+        if (time > 60) {
+            score = score + 10;
+        } else if (time > 40) {
+            score = score + 8;
+        } else if (time > 30) {
+            score = score + 6;
+        } else if (time > 20) {
+            score = score + 4;
+        } else if (time > 10) {
+            score = score + 2;
+        } else if (score > 5) {
+            score = score + 1;
+        };
+
+        // sets time to 0 if questions answered.
         time = 0;
         return endScreen(score);
     } else {
@@ -80,18 +97,26 @@ function runQuiz() {
 var checkAnswer = function (check) {
 
     if (check == correctAnswerIndex) {
+        // if answer is correct adds 5 points to score
         score = score + 5;
+        // Answered question pushed to seperate array
         answeredQuestions.push(questions[indexOfRandomQuestion]);
+        // Answered question cuted out of the questions array
         questions.splice(indexOfRandomQuestion, 1);
-        console.log("correct");
+        // Shows did user picked correct or wrong answer
+        answerResult.setAttribute("style", "display: block;")
+        answerResult.innerHTML = "<b> Correct! </b>";
+
         runQuiz();
     } else {
-
+        // if picked wrong answer minus 5 points from score
         score = score - 5;
+        // if picked wrong takes 10sec from time.
         time = time - 10;
         answeredQuestions.push(questions[indexOfRandomQuestion]);
         questions.splice(indexOfRandomQuestion, 1);
-        console.log("Wrong");
+        answerResult.setAttribute("style", "display: block;")
+        answerResult.innerHTML = "<b style=\"color:red\"> Wrong! </b>";
 
         runQuiz();
     };
@@ -99,6 +124,10 @@ var checkAnswer = function (check) {
 
 // When all questions answred runs this function.
 var endScreen = function (score) {
+    // if score is less that 0 it will equal to 0 to avoid negative results.
+    if (score < 0) {
+        score = 0;
+    };
     // Makes question screen invisible
     question.setAttribute("style", "display: none;");
     // Makes end screen visible
@@ -106,18 +135,24 @@ var endScreen = function (score) {
     // Shows score
     document.querySelector("#final-score").innerHTML = score;
 
-    document.querySelector("#submit").addEventListener("click", function(){
+    document.querySelector("#submit").addEventListener("click", function (event) {
+        event.preventDefault();
+        // takes a value of initials input on click button submit
         var initial = document.querySelector("#initials").value;
+        // makes it only uppercase
         var initials = initial.toUpperCase();
-
-        if (localStorage.getItem(initials) === null) {
+        console.log(localStorage.getItem(initials))
+        // if there is no same initials in localstorage it adds it.
+        if (localStorage.getItem(initials) == null) {
             localStorage.setItem(initials, score);
+            // if there is same initials checks if the score is bigger then existing if yes adds it.
         } else if (score > localStorage.getItem(initials)) {
             localStorage.setItem(initials, score);
-        } else {
+        } else if (score <= localStorage.getItem(initials)) {
             alert("It's not you highest score!");
         };
-        return window.location="./highscores.html"
+        // refresh page.
+        window.location = "./highscores.html";
     });
 
 

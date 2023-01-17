@@ -1,7 +1,8 @@
 // Variables
 var highScores = document.querySelector("#highscores");
 // local takes an object from local storage and makes it multiply arrays.
-var local= Object.keys(localStorage).map((key) => [String(key), localStorage[key]]);
+var unsorted= Object.keys(localStorage).map((key) => [String(key), localStorage[key]]);
+var local = unsorted.sort((A, B) => B[1] - A[1]);
 
 // Clear HighScores button
 var clear = document.querySelector("#clear");
