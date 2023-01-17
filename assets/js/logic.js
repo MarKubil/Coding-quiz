@@ -84,8 +84,7 @@ function runQuiz() {
             ul.appendChild(newLi());
         };
 
-
-        // evert list item gets an randomQuestion answer content.
+        // every list item gets an randomQuestion answer content.
         ul.children[x].innerHTML = "<button onclick='checkAnswer(\"" + randomQuestion["answers"].indexOf(randomQuestion["answers"][x]) + "\", this)'>" + randomQuestion["answers"][x] + "</button>"
 
     };
@@ -135,25 +134,24 @@ var endScreen = function (score) {
     // Shows score
     document.querySelector("#final-score").innerHTML = score;
 
-    document.querySelector("#submit").addEventListener("click", function (event) {
-        event.preventDefault();
-        // takes a value of initials input on click button submit
-        var initial = document.querySelector("#initials").value;
-        // makes it only uppercase
-        var initials = initial.toUpperCase();
-        console.log(localStorage.getItem(initials))
-        // if there is no same initials in localstorage it adds it.
-        if (localStorage.getItem(initials) == null) {
-            localStorage.setItem(initials, score);
-            // if there is same initials checks if the score is bigger then existing if yes adds it.
-        } else if (score > localStorage.getItem(initials)) {
-            localStorage.setItem(initials, score);
-        } else if (score <= localStorage.getItem(initials)) {
-            alert("It's not you highest score!");
-        };
-        // refresh page.
-        window.location = "./highscores.html";
-    });
-
-
 };
+
+document.querySelector("#submit").addEventListener("click", function (event) {
+    event.preventDefault();
+    // takes a value of initials input on click button submit
+    var initial = document.querySelector("#initials").value;
+    // makes it only uppercase
+    var initials = initial.toUpperCase();
+    console.log(localStorage.getItem(initials))
+    // if there is no same initials in localstorage it adds it.
+    if (localStorage.getItem(initials) == null) {
+        localStorage.setItem(initials, score);
+        // if there is same initials checks if the score is bigger then existing if yes adds it.
+    } else if (score > localStorage.getItem(initials)) {
+        localStorage.setItem(initials, score);
+    } else if (score <= localStorage.getItem(initials)) {
+        alert("It's not you highest score!");
+    };
+    // refresh page.
+    window.location = "./highscores.html";
+});
